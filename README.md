@@ -42,7 +42,7 @@ ros2 run turtlebot3_teleop teleop_keyboard
 Open the hand
 
 ```bash 
-ros2 launch ros2_control_demo_example_1 view_robot.launch.py
+ros2 launch ros2_control_demo_example_1 rrbot.launch.py
 ```
 Check what are the controllers available
 
