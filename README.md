@@ -36,3 +36,49 @@ To initialize teleop
 ``` bash
 ros2 run turtlebot3_teleop teleop_keyboard
 ```
+
+## 4. What is TFtree
+
+Open the hand
+
+```bash 
+ros2 launch ros2_control_demo_example_1 view_robot.launch.py
+```
+Check what are the controllers available
+
+```bash
+ros2 control list_controllers
+```
+
+Get the joint names and command interfaces
+```bash
+ros2 param get /forward_position_controller joints
+ros2 param get /forward_position_controller interface_name
+ros2 topic type /forward_position_controller/commands
+```
+
+Let's move 
+```bash
+ros2 topic pub --once \
+  /forward_position_controller/commands \
+  std_msgs/msg/Float64MultiArray \
+  "{data: [0.5, -0.3]}"
+```
+
+To view the joint angles
+```bash
+ros2 topic echo /joint_states
+```
+
+To view the TFtree
+```bash
+ros2 run tf2_tools view_frames
+```
+
+To query the position and orientation of a link relative to the world frame
+```bash
+ros2 run tf2_ros tf2_echo world link1
+ros2 run tf2_ros tf2_echo world link2
+```
+
+
