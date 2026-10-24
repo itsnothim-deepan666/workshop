@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+
+import rclpy
+from geometry_msgs.msg import Pose, PoseArray
+from rclpy.node import Node
+from tf2_ros import Buffer, TransformException, TransformListener
+
+
+class JointWorldPosePublisher(Node):
+    def __init__(self):
+        super().__init__('rrbot_joint_world_pose_publisher')
+        self.tf_buffer = Buffer()
+        self.tf_listener = TransformListener(self.tf_buffer, self)
+
+        self.pose_pub = self.create_publisher(PoseArray, 'rrbot_joint_world_poses', 10)
+        self.timer = self.create_timer(0.05, self.publish_world_poses)
+
+        self.frame_names = ['base_link', 'link1', 'link2', 'tool_link']
+        self.get_logger().info(
+            'Publishing world-frame poses for frames: %s on topic /rrbot_joint_world_poses' %
+            self.frame_names
+        )
+
+    def publish_world_poses(self):
+        pose_array = PoseArray()
+        pose_array.header.stamp = self.get_clock().now().to_msg()
+        pose_array.header.frame_id = 'world'
+
+        for frame_name in self.frame_names:
+            pose = Pose()
+            try:
+                transform = self.tf_buffer.lookup_transform('world', frame_name, self.get_clock().now())
+                pose.position.x = transform.transform.translation.x
+                pose.position.y = transform.transform.translation.y
+                pose.position.z = transform.transform.translation.z
+                pose.orientation.x = transform.transform.rotation.x
+                pose.orientation.y = transform.transform.rotation.y
+                pose.orientation.z = transform.transform.rotation.z
+                pose.orientation.w = transform.transform.rotation.w
+            except TransformException:
+                self.get_logger().warn(
+                    f'Could not transform world -> {frame_name}; skipping pose.'
+                )
+                continue
+
+            pose_array.poses.append(pose)
+
+        if pose_array.poses:
+            self.pose_pub.publish(pose_array)
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = JointWorldPosePublisher()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
