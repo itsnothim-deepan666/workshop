@@ -36,6 +36,21 @@ To initialize teleop
 ``` bash
 ros2 run turtlebot3_teleop teleop_keyboard
 ```
+## 4. Lets See a Custom URDF
+
+First open just gazebo
+
+```bash
+ros2 launch gazebo_ros gazebo.launch.py
+```
+
+Now the custom bot
+```bash
+ros2 run gazebo_ros spawn_entity.py \
+  -entity simple_bot_colored \
+  -file ~/ros2_ws/src/simple_bot_description/urdf/simple_bot.urdf \
+  -x 0 -y 0 -z 0.15
+```
 
 ## 4. What is TFtree
 
@@ -87,4 +102,8 @@ ros2 run tf2_ros tf2_echo world link2
 export TURTLEBOT3_MODEL=burger
 ros2 launch turtlebot3_bringup rviz2.launch.py
 ```
+<<<<<<< HEAD
+=======
+
+>>>>>>> 972f070 (updated with many stuffs)
 
