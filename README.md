@@ -52,7 +52,7 @@ ros2 run gazebo_ros spawn_entity.py \
   -x 0 -y 0 -z 0.15
 ```
 
-## 4. What is TFtree
+## 5. What is TFtree
 
 Open the hand
 
@@ -96,7 +96,7 @@ ros2 run tf2_ros tf2_echo world link1
 ros2 run tf2_ros tf2_echo world link2
 ```
 
-## 5. Now, the same for turtlebot
+## 6. Now, the same for turtlebot
 
 ```bash
 export TURTLEBOT3_MODEL=burger
