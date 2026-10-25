@@ -31,6 +31,8 @@ if [ ! -d workshop/.git ]; then
     git clone https://github.com/itsnothim-deepan666/workshop.git
 fi
 
+cp -a workshop/. "$WS_PATH/src/"
+rm -rf workshop
 
 cd "$WS_PATH"
 source /opt/ros/humble/setup.bash
