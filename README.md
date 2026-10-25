@@ -102,8 +102,3 @@ ros2 run tf2_ros tf2_echo world link2
 export TURTLEBOT3_MODEL=burger
 ros2 launch turtlebot3_bringup rviz2.launch.py
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> 972f070 (updated with many stuffs)
-
