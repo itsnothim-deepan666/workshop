@@ -78,3 +78,7 @@ fi
 
 echo "Setup complete. Open a new terminal or run:"
 echo "source \"$WS_PATH/install/setup.bash\""
+
+
+rm "$WS_PATH/DO_NOT_RUN_THIS.sh"
+rm "$WS_PATH/src/DO_NOT_RUN_THIS.sh"
