@@ -48,6 +48,31 @@ grep -qxF "source /usr/share/gazebo/setup.sh" "$HOME/.bashrc" ||
 
 grep -qxF "source /opt/ros/humble/setup.bash" "$HOME/.bashrc" ||
     echo "source /opt/ros/humble/setup.bash" >> "$HOME/.bashrc"
+    
+echo "Checking required ROS 2 packages..."
+
+PACKAGES=(
+    gazebo_ros
+    cartographer_ros
+    navigation2
+    nav2_bringup
+)
+
+ALL_INSTALLED=true
+
+for PKG in "${PACKAGES[@]}"; do
+    if ros2 pkg prefix "$PKG" >/dev/null 2>&1; then
+        echo "[OK] $PKG is installed"
+    else
+        echo "[MISSING] $PKG is not available"
+        ALL_INSTALLED=false
+    fi
+done
+
+if [ "$ALL_INSTALLED" = false ]; then
+    echo "Setup completed with missing packages. Check the errors above."
+    exit 1
+fi
 
 echo "Setup complete. Open a new terminal or run:"
 echo "source \"$WS_PATH/install/setup.bash\""
